@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">TicTacToe</string>
+    <string name="password">Password</string>
+    <string name="user">User</string>
+    <string name="login">Login</string>
+    <string name="user_image">User image</string>
+    <string name="_1_player">1 player</string>
+    <string name="play_online">play online</string>
+    <string name="_2_players">2 players</string>
+    <string name="tictactoe_image">TicTacToe image</string>
+    <string name="win">Win</string>
+    <string name="draw">Draw</string>
+    <string name="lose">Lose</string>
+    <string name="see_your_score">See your Score</string>
+</resources>
