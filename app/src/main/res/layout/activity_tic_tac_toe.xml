@@ -4,20 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fillViewport="true"
     tools:context="com.example.altice.tictactoe.TicTacToeActivity">
 
+        <TableLayout
+            android:id="@+id/tableLayout3"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:weightSum="1">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:weightSum="10"
+                android:layout_weight="1"
+                tools:ignore="UselessParent">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="3"
+                    android:gravity="center"
+                    android:text="@string/turn"
+                    style="@style/textViewTurnHeader"/>
+
+                <TextView
+                    android:id="@+id/tvTurn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:gravity="center"
+                    style="@style/textViewTurnBody"/>
+            </TableRow>
+
+        </TableLayout>
 
     <TableLayout
         android:id="@+id/tableLayout2"
-        android:layout_width="match_parent"
-        android:layout_height="198dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/tic_tac_toe_background"
         android:weightSum="3"
+        app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout3">
 
         <TableRow
             android:layout_width="match_parent"
@@ -27,27 +70,27 @@
 
             <TextView
                 android:id="@+id/tvPosition00"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="X" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvPosition01"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="O" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvPosition02"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="X" />
+                android:gravity="center" />
         </TableRow>
 
         <TableRow
@@ -58,14 +101,15 @@
 
             <TextView
                 android:id="@+id/tvPosition10"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="O" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvPosition11"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -73,11 +117,11 @@
 
             <TextView
                 android:id="@+id/tvPosition12"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="O" />
+                android:gravity="center" />
         </TableRow>
 
         <TableRow
@@ -88,6 +132,7 @@
 
             <TextView
                 android:id="@+id/tvPosition20"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -95,39 +140,36 @@
 
             <TextView
                 android:id="@+id/tvPosition21"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="X" />
+                android:gravity="center" />
 
             <TextView
                 android:id="@+id/tvPosition22"
+                style="@style/textViewXO"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center"
-                android:text="X" />
+                android:gravity="center" />
         </TableRow>
 
 
     </TableLayout>
 
-
-
-
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="128dp"
+        android:layout_height="113dp"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:weightSum="100"
+        app:layout_constraintBottom_toTopOf="@+id/btnSeeYourScore"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout2">
+        app:layout_constraintStart_toStartOf="parent">
 
 
         <TableRow
@@ -137,6 +179,7 @@
             android:weightSum="3">
 
             <TextView
+                style="@style/textViewScoreHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -144,6 +187,7 @@
                 android:text="@string/win" />
 
             <TextView
+                style="@style/textViewScoreHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -151,6 +195,7 @@
                 android:text="@string/draw" />
 
             <TextView
+                style="@style/textViewScoreHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -165,21 +210,24 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tvPlayerOne"
+                style="@style/textViewScoreBody"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvDraw"
+                style="@style/textViewScoreBody"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center" />
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/tvPlayerTwo"
+                style="@style/textViewScoreBody"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -190,15 +238,19 @@
 
     </TableLayout>
 
-    <Button
-        android:id="@+id/btnSeeYourScore"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/see_your_score"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+        <Button
+            android:id="@+id/btnSeeYourScore"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:background="@color/colorPrimary"
+            android:text="@string/see_your_score"
+            android:textColor="@color/textColor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
 </android.support.constraint.ConstraintLayout>

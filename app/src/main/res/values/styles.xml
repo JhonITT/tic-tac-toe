@@ -8,4 +8,33 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="textViewXO">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="textViewTurnHeader">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="textViewTurnBody">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="textViewScoreHeader">
+        <item name="android:background">@color/colorPrimaryDark</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
+    <style name="textViewScoreBody">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="android:textColor">@color/textColor</item>
+        <item name="android:textSize">30sp</item>
+    </style>
+
 </resources>

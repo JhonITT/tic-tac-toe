@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        findViewById(R.id.btnOnePlayer).setOnClickListener( v -> startActivity(new Intent(this, LevelActivity.class)));
+        findViewById(R.id.btnOnePlayer).setOnClickListener( v -> startActivity(new Intent(this, TicTacToeActivity.class)));
         findViewById(R.id.btnTwoPlayers).setOnClickListener( v -> startActivity(new Intent(this, MainActivity.class)));
         findViewById(R.id.btnPlayOnline).setOnClickListener( v -> startActivity(new Intent(this, MainActivity.class)));
 

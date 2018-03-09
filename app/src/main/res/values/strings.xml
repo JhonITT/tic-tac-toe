@@ -8,8 +8,9 @@
     <string name="play_online">play online</string>
     <string name="_2_players">2 players</string>
     <string name="tictactoe_image">TicTacToe image</string>
-    <string name="win">Win</string>
+    <string name="win">P1</string>
     <string name="draw">Draw</string>
-    <string name="lose">Lose</string>
+    <string name="lose">P2</string>
     <string name="see_your_score">See your Score</string>
+    <string name="turn">Turn:</string>
 </resources>
