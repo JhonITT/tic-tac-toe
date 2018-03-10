@@ -7,54 +7,54 @@
     android:fillViewport="true"
     tools:context="com.example.altice.tictactoe.TicTacToeActivity">
 
-        <TableLayout
-            android:id="@+id/tableLayout3"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:weightSum="1">
+    <TableLayout
+        android:id="@+id/tableLayout3"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:weightSum="1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <TableRow
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:weightSum="10"
+            tools:ignore="UselessParent">
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/textViewTurnHeader"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:weightSum="10"
-                android:layout_weight="1"
-                tools:ignore="UselessParent">
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="@string/turn" />
 
-                <TextView
-                    android:id="@+id/textView2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="3"
-                    android:gravity="center"
-                    android:text="@string/turn"
-                    style="@style/textViewTurnHeader"/>
+            <TextView
+                android:id="@+id/tvTurn"
+                style="@style/textViewTurnBody"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="7"
+                android:gravity="center" />
+        </TableRow>
 
-                <TextView
-                    android:id="@+id/tvTurn"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="7"
-                    android:gravity="center"
-                    style="@style/textViewTurnBody"/>
-            </TableRow>
-
-        </TableLayout>
+    </TableLayout>
 
     <TableLayout
         android:id="@+id/tableLayout2"
+        android:background="@drawable/tic_tac_toe"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/tic_tac_toe_background"
         android:weightSum="3"
         app:layout_constraintBottom_toTopOf="@+id/tableLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -166,7 +166,7 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:weightSum="100"
-        app:layout_constraintBottom_toTopOf="@+id/btnSeeYourScore"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent">
@@ -184,7 +184,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/win" />
+                android:text="@string/player_one" />
 
             <TextView
                 style="@style/textViewScoreHeader"
@@ -200,7 +200,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="@string/lose" />
+                android:text="@string/player_two" />
         </TableRow>
 
         <TableRow
@@ -237,20 +237,6 @@
 
 
     </TableLayout>
-
-        <Button
-            android:id="@+id/btnSeeYourScore"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:background="@color/colorPrimary"
-            android:text="@string/see_your_score"
-            android:textColor="@color/textColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

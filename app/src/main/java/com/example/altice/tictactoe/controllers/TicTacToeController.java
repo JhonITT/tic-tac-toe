@@ -6,7 +6,9 @@ import android.widget.Toast;
 
 import com.example.altice.tictactoe.models.Board;
 import com.example.altice.tictactoe.models.Mode;
+import com.example.altice.tictactoe.models.PlayHistory;
 import com.example.altice.tictactoe.models.Player;
+import com.example.altice.tictactoe.models.State;
 import com.example.altice.tictactoe.models.User;
 
 /**
@@ -30,12 +32,14 @@ public class TicTacToeController {
     private TextView tvPlayerTwo;
     private Board board;
     private Context context;
+    private User playerOne;
+    private User playerTwo;
+
     private int countP1;
     private int countP2;
     private int countDraw;
-    private User playerOne;
-    private User playerTwo;
     private Mode mode;
+
 
     public TicTacToeController(
             Context context,
@@ -62,19 +66,32 @@ public class TicTacToeController {
         this.tvPlayerOne = tvPlayerOne;
         this.tvDraw = tvDraw;
         this.tvPlayerTwo = tvPlayerTwo;
-
-        this.playerOne = new User("Jhon","123456789",Player.X);
-        this.playerTwo = new User("Marlon","123456789",Player.O);
         this.countP1 = 0;
         this.countP2 = 0;
         this.countDraw = 0;
-        
-        this.tvTurn.setText(findPlayerByTurn(board.getTurn()));
+        this.tvPlayerTwo.setText("0");
+        this.tvPlayerOne.setText("0");
+        this.tvDraw.setText("0");
+        this.tvTurn.setText("P1");
+        this.playerOne = Repository.instance.playerOne;
+        this.playerTwo = Repository.instance.playerTwo;
+
+
+        playerOne.username= "jhon";
+        playerOne.player = Player.X;
+        playerTwo.player = Player.O;
+        if (mode.equals(Mode.OnePlayer)){
+            playerTwo.username = "computer";
+        }else if(mode.equals(Mode.TwoPlayer)){
+            playerTwo.username = "player2";
+        }
+
+
 
     }
 
-    public String findPlayerByTurn(Player turn){
-        if (playerOne.player.equals(turn)){
+    private String findPlayerByTurn(){
+        if (board.getTurn().equals(playerOne.player)){
             return "P1";
         }else{
             return "P2";
@@ -82,137 +99,173 @@ public class TicTacToeController {
     }
 
 
+    private void humanPlay(int row, int column) {
+        if (board.nextMove(row, column) != null) {
+            board = board.nextMove(row, column);
+            pintarTablero(board);
+            tvTurn.setText(findPlayerByTurn());
 
+            if (!board.getState().equals(State.UNDEFINED)) {
+                if(board.getState().equals(State.DRAW)){
+                   Repository.instance.insertEvent(State.DRAW);
+                   Repository.instance.changePlayer();
+                   countDraw++;
+                   tvDraw.setText(Integer.toString(countDraw));
+                }
+                else if(board.getState().equals(State.WIN_X)){
+                    if (playerOne.player.equals(Player.X)){
+                        Repository.instance.insertEvent(State.WIN);
+                        Repository.instance.changePlayer();
+                        countP1++;
+                        tvPlayerOne.setText(Integer.toString(countP1));
+                    }else{
+                        Repository.instance.insertEvent(State.LOSE);
+                        Repository.instance.changePlayer();
+                        countP2++;
+                        tvPlayerTwo.setText(Integer.toString(countP2));
+                    }
+                }else if(board.getState().equals(State.WIN_O)){
+                    if (playerOne.player.equals(Player.O)){
+                        Repository.instance.insertEvent(State.WIN);
+                        Repository.instance.changePlayer();
+                        countP1++;
+                        tvPlayerTwo.setText(Integer.toString(countP1));
+                    }else{
+                        Repository.instance.insertEvent(State.LOSE);
+                        Repository.instance.changePlayer();
+                        countP2++;
+                        tvPlayerTwo.setText(Integer.toString(countP2));
+                    }
+                }
+                Toast.makeText(context,board.getState().toString(),Toast.LENGTH_LONG).show();
+                board.beginAgain();
+                pintarTablero(board);
+            }
+        }
+    }
+
+    public void computerPlay() {
+        //--------------------------------------
+        if (board.getMoveds() == 0) {
+            double valor = Math.random() * 100;
+            if (valor <= 20) {
+                board = board.nextMove(0, 0);
+            } else if (valor > 20 && valor <= 40) {
+                board = board.nextMove(0, 2);
+            } else if (valor > 40 && valor <= 60) {
+                board = board.nextMove(2, 0);
+            } else if (valor > 60 && valor <= 80) {
+                board = board.nextMove(2, 2);
+            } else if (valor > 80 && valor <= 100) {
+                board = board.nextMove(1, 1);
+            }
+            pintarTablero(board);
+        } else if (board.getMoveds() == 1) {
+            if (board.nextMove(1, 1) != null) {
+                board = board.nextMove(1, 1);
+                pintarTablero(board);
+            } else {
+                double valor = Math.random() * 100;
+                if (valor <= 25) {
+                    board = board.nextMove(0, 0);
+                } else if (valor > 25 && valor <= 50) {
+                    board = board.nextMove(0, 2);
+                } else if (valor > 50 && valor <= 75) {
+                    board = board.nextMove(2, 0);
+                } else if (valor > 75 && valor <= 100) {
+                    board = board.nextMove(2, 2);
+                }
+
+                pintarTablero(board);
+            }
+
+        } else if (board.nextForcedMovements().size() > 0) {
+
+            if (board.nextForcedMovements().size() > 1) {
+                if (board.nextForcedMovements().get(0).getWeight(board.getTurn()) > board.nextForcedMovements().get(1).getWeight(board.getTurn())) {
+                    board = board.nextForcedMovements().get(0);
+                } else {
+                    board = board.nextForcedMovements().get(1);
+                }
+            } else {
+                board = board.nextForcedMovements().get(0);
+            }
+
+            pintarTablero(board);
+
+        } else {
+
+            int max = 0;
+            Board mejorCamino = board.nextMovements().get(0);
+
+            for (Board proximaJugada : board.nextMovements()) {
+                for (Board camino : proximaJugada.nextForcedMovements()) {
+                    if (camino.roadWeight(camino) > max) {
+                        mejorCamino = proximaJugada;
+                        max = camino.roadWeight(camino);
+                    }
+                }
+            }
+
+            board = mejorCamino;
+            pintarTablero(board);
+
+        }
+        tvTurn.setText(findPlayerByTurn());
+        if (!board.getState().equals(State.UNDEFINED)) {
+            if (board.getState().equals(State.DRAW)) {
+                Repository.instance.insertEvent(State.DRAW);
+                Repository.instance.changePlayer();
+                countDraw++;
+                tvDraw.setText(Integer.toString(countDraw));
+            } else if (board.getState().equals(State.WIN_X)) {
+                if (playerOne.player.equals(Player.X)) {
+                    Repository.instance.insertEvent(State.WIN);
+                    Repository.instance.changePlayer();
+                    countP1++;
+                    tvPlayerOne.setText(Integer.toString(countP1));
+                } else {
+                    Repository.instance.insertEvent(State.LOSE);
+                    Repository.instance.changePlayer();
+                    countP2++;
+                    tvPlayerTwo.setText(Integer.toString(countP2));
+                }
+            } else if (board.getState().equals(State.WIN_O)) {
+                if (playerOne.player.equals(Player.O)) {
+                    Repository.instance.insertEvent(State.WIN);
+                    Repository.instance.changePlayer();
+                    countP1++;
+                    tvPlayerTwo.setText(Integer.toString(countP1));
+                } else {
+                    Repository.instance.insertEvent(State.LOSE);
+                    Repository.instance.changePlayer();
+                    countP2++;
+                    tvPlayerTwo.setText(Integer.toString(countP2));
+                }
+            }
+            Toast.makeText(context, board.getState().toString(), Toast.LENGTH_LONG).show();
+            board.beginAgain();
+            pintarTablero(board);
+        }
+    }
+    
+    
 
     public void jugar(int fila, int colunna) {
+
 
         //---------Jugada-----------------------
         if (board.nextMove(fila, colunna) != null) {
 
-            board = board.nextMove(fila, colunna);
-            pintarTablero(board);
-
-            if (board.isDraw()) {
-                Toast.makeText(context,"Es un empate",Toast.LENGTH_LONG).show();
-                board.beginAgain();
-                pintarTablero(board);
-            } else if (board.getWeight(Player.X) == 2) {
-                Toast.makeText(context,"X: Gano",Toast.LENGTH_LONG).show();
-                board.beginAgain();
-                pintarTablero(board);
-            } else if (board.getWeight(Player.O) == 2) {
-                Toast.makeText(context,"O: Gano",Toast.LENGTH_LONG).show();
-                board.beginAgain();
-                pintarTablero(board);
+            humanPlay(fila,colunna);
+            if (mode.equals(Mode.OnePlayer)) {
+                computerPlay();
             }
-
-
-            this.tvTurn.setText(findPlayerByTurn(board.getTurn()));
-        } else {
-            return;
-        }
-
-        if (mode.equals(Mode.OnePlayer)){
-
-            //--------------------------------------
-            if (board.getMoveds()== 0) {
-                double valor = Math.random() * 100;
-                if (valor <= 20) {
-                    board = board.nextMove(0, 0);
-                } else if (valor > 20 && valor <= 40) {
-                    board = board.nextMove(0, 2);
-                } else if (valor > 40 && valor <= 60) {
-                    board = board.nextMove(2, 0);
-                } else if (valor > 60 && valor <= 80) {
-                    board = board.nextMove(2, 2);
-                } else if (valor > 80 && valor <= 100) {
-                    board = board.nextMove(1, 1);
-                }
-                pintarTablero(board);
-            } else if (board.getMoveds()== 1) {
-                if (board.nextMove(1, 1) != null) {
-                    board = board.nextMove(1, 1);
-                    pintarTablero(board);
-                } else {
-                    double valor = Math.random() * 100;
-                    if (valor <= 25) {
-                        board = board.nextMove(0, 0);
-                    } else if (valor > 25 && valor <= 50) {
-                        board = board.nextMove(0, 2);
-                    } else if (valor > 50 && valor <= 75) {
-                        board = board.nextMove(2, 0);
-                    } else if (valor > 75 && valor <= 100) {
-                        board = board.nextMove(2, 2);
-                    }
-
-                    pintarTablero(board);
-                }
-
-            } else if (board.nextForcedMovements().size() > 0) {
-
-                if (board.nextForcedMovements().size() > 1) {
-                    if (board.nextForcedMovements().get(0).getWeight(board.getTurn()) > board.nextForcedMovements().get(1).getWeight(board.getTurn())) {
-                        board = board.nextForcedMovements().get(0);
-                    } else {
-                        board = board.nextForcedMovements().get(1);
-                    }
-                }else{
-                    board = board.nextForcedMovements().get(0);
-                }
-
-                //board = board.proximasJugadasForzadas().get(0);
-                pintarTablero(board);
-
-                if (board.isDraw()) {
-                    Toast.makeText(context,"tablas",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                } else if (board.getWeight(Player.X) == 2) {
-                    Toast.makeText(context,"X: Gano",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                } else if (board.getWeight(Player.O) == 2) {
-                    Toast.makeText(context,"O: Gano",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                }
-            } else {
-
-                int max = 0;
-                Board mejorCamino = board.nextMovements().get(0);
-
-                for (Board proximaJugada : board.nextMovements()) {
-                    for (Board camino : proximaJugada.nextForcedMovements()) {
-                        if (camino.roadWeight(camino) > max) {
-                            mejorCamino = proximaJugada;
-                            max = camino.roadWeight(camino);
-                        }
-                    }
-                }
-
-                board = mejorCamino;
-                pintarTablero(board);
-
-                if (board.isDraw()) {
-                    Toast.makeText(context,"tablas",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                } else if (board.getWeight(Player.X) == 2) {
-                    Toast.makeText(context,"X: Gano",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                } else if (board.getWeight(Player.O) == 2) {
-                    Toast.makeText(context,"O: Gano",Toast.LENGTH_LONG).show();
-                    board.beginAgain();
-                    pintarTablero(board);
-                }
-            }
-
         }
 
     }
 
-    public void pintarTablero(Board board) {
+    private void pintarTablero(Board board) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 pintarCasilla(i, j, board.getBoard()[i][j]);
@@ -220,7 +273,7 @@ public class TicTacToeController {
         }
     }
 
-    public void pintarCasilla(int fila, int colunna, Player marca) {
+    private void pintarCasilla(int fila, int colunna, Player marca) {
         switch (fila) {
             case 0:
                 switch (colunna) {

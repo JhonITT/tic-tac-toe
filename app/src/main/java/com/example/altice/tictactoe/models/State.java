@@ -5,5 +5,5 @@ package com.example.altice.tictactoe.models;
  */
 
 public enum State {
-    WIN_X,WIN_O,DRAW,UNDEFINED
+    WIN,LOSE,DRAW,WIN_X,WIN_O,UNDEFINED
 }

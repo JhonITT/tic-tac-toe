@@ -8,6 +8,8 @@ import java.util.List;
  */
 
 public class Board {
+
+
     private Player turn;
     private Player[][] board;
     private int moveCounter;
@@ -29,7 +31,7 @@ public class Board {
     }
 
     public Board nextMove(int row, int column) {
-        if (board[row][column] == Player.NULL) {
+        if (board[row][column].equals(Player.NULL)) {
             if (turn == Player.X) {
                 Board nextMoveBoard = new Board(Player.O, board, moveCounter + 1);
                 nextMoveBoard.getBoard()[row][column] = Player.X;
@@ -286,6 +288,18 @@ public class Board {
         return 1;
     }
 
+    public State getState(){
+        if (isDraw()) {
+            return State.DRAW;
+        }else if (getWeight(Player.X) == 2){
+            return State.WIN_X;
+        }else if (getWeight(Player.O) == 2){
+            return State.WIN_O;
+        }else{
+            return State.UNDEFINED;
+        }
+    }
+
     public boolean isDraw(){
         for ( int i = 0 ; i < 3 ; i++ ){
             for ( int j = 0 ; j < 3 ; j++){
@@ -334,4 +348,6 @@ public class Board {
     public void setMoveds(int moveds) {
         this.moveCounter = moveds;
     }
+
 }
+

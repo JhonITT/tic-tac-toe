@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.altice.tictactoe.controllers.Repository;
 import com.example.altice.tictactoe.controllers.TicTacToeController;
 import com.example.altice.tictactoe.models.Board;
 import com.example.altice.tictactoe.models.Mode;
@@ -30,18 +31,18 @@ public class TicTacToeActivity extends AppCompatActivity {
         TextView tvPlayerTwo = findViewById(R.id.tvPlayerTwo);
 
 
-
-        Board estadoActual = new Board();
+        Board board = new Board();
 
         TicTacToeController controlador = new TicTacToeController(
                 this,
-                estadoActual,
+                board,
                 tvPosition00,tvPosition01,tvPosition02,
                 tvPosition10,tvPosition11,tvPosition12,
                 tvPosition20, tvPosition21, tvPosition22,
                 tvTurn,tvPlayerOne,tvDraw,tvPlayerTwo,
-                Mode.OnePlayer
+                Repository.instance.mode
         );
+
 
         tvPosition00.setOnClickListener(v -> controlador.jugar(0,0));
         tvPosition01.setOnClickListener(v -> controlador.jugar(0,1));

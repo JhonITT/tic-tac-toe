@@ -6,12 +6,14 @@ package com.example.altice.tictactoe.models;
 
 public class User {
     public String username;
-    public String password;
     public Player player;
 
-    public User(String username, String password, Player player) {
+    public User() {
+
+    }
+    public User(String username, Player player) {
         this.username = username;
-        this.password = password;
         this.player = player;
     }
+
 }
